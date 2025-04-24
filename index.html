@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic page setup -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Pleb Block Explorer</title>
+    <!-- CSS styles - kept simple and in the HTML file for beginners -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #ff9900;
+            text-align: center;
+        }
+        
+        .block-info {
+            margin-top: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        
+        .info-label {
+            flex: 1;
+            font-weight: bold;
+        }
+        
+        .info-value {
+            flex: 2;
+        }
+        
+        button {
+            background-color: #ff9900;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+        
+        button:hover {
+            background-color: #e68a00;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        #datetime {
+            text-align: right;
+            font-size: 0.8em;
+            color: #777;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .raw-data-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .raw-data-header {
+            background-color: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .raw-data-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        #raw-data-content {
+            background-color: #f8f8f8;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container for our application -->
+    <div class="container">
+        <!-- Page title -->
+        <h1>Bitcoin Pleb Block Explorer</h1>
+        
+        <!-- Current date and time display -->
+        <div id="datetime"></div>
+        
+        <!-- Loading message shown while fetching data -->
+        <div id="loading" class="loading">
+            Loading latest block data...
+        </div>
+        
+        <!-- Block data container (hidden until data is loaded) -->
+        <div id="block-data" class="hidden">
+            <!-- Block information displayed in rows -->
+            <div class="block-info">
+                <!-- Each row contains a label and a value -->
+                <div class="info-row">
+                    <div class="info-label">Block Height:</div>
+                    <div id="block-height" class="info-value">-</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Block Hash:</div>
+                    <div id="block-hash" class="info-value">-</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Timestamp:</div>
+                    <div id="block-timestamp" class="info-value">-</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Transaction Count:</div>
+                    <div id="tx-count" class="info-value">-</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Size (KB):</div>
+                    <div id="block-size" class="info-value">-</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Weight:</div>
+                    <div id="block-weight" class="info-value">-</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Mined By:</div>
+                    <div id="miner" class="info-value">-</div>
+                </div>
+            </div>
+            
+            <!-- Button to toggle raw JSON data visibility -->
+            <button id="raw-data-button">Show Raw Block Data</button>
+            
+            <!-- Container for raw JSON data (hidden by default) -->
+            <div id="raw-data-container" class="raw-data-container hidden">
+                <div class="raw-data-header">
+                    <h3>Raw Block Data (JSON)</h3>
+                </div>
+                <pre id="raw-data-content"></pre>
+            </div>
+            
+            <!-- Navigation buttons for exploring blocks -->
+            <div class="navigation-buttons">
+                <div>
+                    <button id="prev-block-button">Previous Block</button>
+                    <button id="next-block-button">Next Block</button>
+                </div>
+                <button id="refresh-button">Latest Block</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to external JavaScript file -->
+    <script src="index.js"></script>
+</body>
+</html>
